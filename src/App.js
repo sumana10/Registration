@@ -3,6 +3,7 @@ import logo from './logo.svg';
 // import Registration from "./components/Registrantion";
 import Header from './components/Header';
 import Registration from './components/Registration';
+import SignupForm from './components/SignupForm';
 const App = () => {
   return (
     <div>
