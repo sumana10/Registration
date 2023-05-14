@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div>
       <Header message={"Registration Form"}/>
-        <Registration/>
+        <SignupForm/>
       <Header message={"Made by ©️Sumana"}/>
     </div>
   );

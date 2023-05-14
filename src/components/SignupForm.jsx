@@ -113,7 +113,7 @@ const SignupForm = () => {
             name="email"
             placeholder="Email"
             value={email}
-            onChange={this.handleChange}
+            onChange={handleChange}
           />
           <small>{errors.email}</small>
         </div>
