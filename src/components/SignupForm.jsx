@@ -3,65 +3,65 @@ import Table from "./Table";
 import { validation } from "../utils/helper/validation";
 
 const SignupForm = () => {
-  const [formData, setFormData] = useState([]); // To store the object data set
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("female");
-  const [topic, setTopic] = useState("react");
-  const [phone, setPhone] = useState("");
-  const [showTable, setShowTable] = useState(false); // Conditional Rendering
+
+  const [formData, setFormData] = useState([]);
+
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    gender: "female",
+    topic: "react",
+    phone: "",
+  })
+
+  const [showTable, setShowTable] = useState(false);
+  const { username, email, password, gender, topic, phone } = values;
+
   const [errors, setErrors] = useState({
     username: "",
     email: "",
     password: "",
     phone: "",
-  }); // Separate error object
+  })
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (event) => {
 
-    // Copy error object
+    const { name, value } = event.target;
+
+    setValues((prevValues) =>({
+      ...prevValues,
+      [name]: value,
+    }));
+
     let errorsCopy = { ...errors };
-
-    // Called validation
+  
     const errorR = validation(name, value, errorsCopy);
 
-    // Update the state
-    setUsername(name === "username" ? value : username);
-    setEmail(name === "email" ? value : email);
-    setPassword(name === "password" ? value : password);
-    setPhone(name === "phone" ? value : phone);
-    setTopic(name === "topic" ? value : topic);
-    setGender(name === "gender" ? value : gender);
     setErrors(errorR);
   };
 
-  /* After Submit */
   const handleSubmit = () => {
-    // Empty field checking
-    if (!username || !email || !password || !phone) {
+
+    if(!username || !email || !password || !phone){
       alert("Please fill all the fields");
       return;
     }
 
-    // check if there are any errors in errors object return boolean
     const hasErrors = Object.values(errors).some((val) => val);
 
-    // if there are errors, don't submit the form
-    if (hasErrors) return;
+    if(hasErrors) return;
 
-    // create object of all data field
+  
     const data = {
       username,
-      email,
+      email, 
       password,
       phone,
-      topic,
+      topic, 
       gender,
-    };
+    }
 
-    // Console submitted data
     console.log(
       `Name: ${username} 
       Email: ${email} 
@@ -72,16 +72,19 @@ const SignupForm = () => {
       `
     );
 
-    // Update the formData array with data object and clears the state
-    setFormData([...formData, data]);
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setGender("female");
-    setTopic("react");
-    setPhone("");
+    setFormData((prevFormData)=> [...prevFormData, data]);
     setShowTable(true);
+    setValues({
+      ...values,
+      username: "",
+      email: "",
+      password: "",
+      gender: "female",
+      topic: "react",
+      phone: "",
+    })
     setErrors({
+      ...errors,
       username: "",
       email: "",
       password: "",
@@ -89,7 +92,7 @@ const SignupForm = () => {
     });
   };
 
-  //Toggle Component
+
   const handleGoBack = () => setShowTable(!showTable);
 
   if (!showTable) {
@@ -156,7 +159,7 @@ const SignupForm = () => {
               value="female"
               name="gender"
               type="radio"
-              checked={gender === "female"}
+              checked = {gender === "female"}
               onChange={handleChange}
             />
             Female
@@ -178,6 +181,7 @@ const SignupForm = () => {
       </div>
     );
   }
+
   return <Table formData={formData} handleGoBack={handleGoBack} />;
 };
 
